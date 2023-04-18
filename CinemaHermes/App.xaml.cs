@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using CinemaHermes.Components;
+using System.Windows;
 
 namespace CinemaHermes
 {
@@ -7,5 +8,6 @@ namespace CinemaHermes
     /// </summary>
     public partial class App : Application
     {
+        public static CinemaRentalEntities Connection = new CinemaRentalEntities();
     }
 }

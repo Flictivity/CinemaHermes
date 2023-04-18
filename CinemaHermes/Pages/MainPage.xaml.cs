@@ -17,5 +17,10 @@ namespace CinemaHermes.Pages
         {
             NavigationService.Navigate(new AuthorizationPage());
         }
+
+        private void RegistrationBtnClick(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new RegistrationPage());
+        }
     }
 }

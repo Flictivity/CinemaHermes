@@ -1,0 +1,53 @@
+﻿<Page x:Class="CinemaHermes.Pages.ClientsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CinemaHermes.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ClientsPage" Loaded="Page_Loaded">
+
+    <Grid Background="#FFFFF9F1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ListView x:Name="lvClients" Grid.Row="1" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="Пол" DisplayMemberBinding="{Binding Gender1.Name}"/>
+                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Firstname}"/>
+                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Lastname}"/>
+                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronymic}"/>
+                    <GridViewColumn Header="Дата рождения" DisplayMemberBinding="{Binding BirthDate, StringFormat={}{0:dd'/'MM'/'yyyy}}"/>
+                    <GridViewColumn Header="Телефон" DisplayMemberBinding="{Binding PhoneNumber}"/>
+                    <GridViewColumn Header="Почта" DisplayMemberBinding="{Binding Email}"/>
+                    <GridViewColumn Header="Дата добавления" DisplayMemberBinding="{Binding AddedDate, StringFormat={}{0:dd'/'MM'/'yyyy}}"/>
+                    <GridViewColumn Header="Дата последнего посещения" DisplayMemberBinding="{Binding VisitDate, StringFormat={}{0:dd'/'MM'/'yyyy}}"/>
+                    <GridViewColumn Header="Количество посещений" DisplayMemberBinding="{Binding VisitCount}"/>
+                    <GridViewColumn Header="Теги">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListView Height="100" Width="100" Name="lvTags">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate DataType="Tag">
+                                            <TextBlock Background="{Binding HexColor}" Text="{Binding Name}"/>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Page>

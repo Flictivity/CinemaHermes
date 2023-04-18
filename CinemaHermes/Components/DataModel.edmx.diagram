@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ee145405aceb490c95c18f85c29445b7" Name="Diagram1">
+        <EntityTypeShape EntityType="CinemaModel.Client" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaModel.ClientTag" Width="1.5" PointX="5.25" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaModel.Gender" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaModel.Tag" Width="1.5" PointX="3.125" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaModel.User" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaModel.Visit" Width="1.5" PointX="0.5" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="CinemaModel.FK_Client_Gender" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaModel.FK_ClientTag_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaModel.FK_Visit_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaModel.FK_ClientTag_Tag" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

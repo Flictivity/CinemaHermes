@@ -19,7 +19,7 @@
             <RowDefinition Height="20*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ListView x:Name="lvClients" Grid.Row="1" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+        <ListView ScrollViewer.CanContentScroll="False" x:Name="lvClients" Grid.Row="1" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>
@@ -36,10 +36,10 @@
                     <GridViewColumn Header="Теги">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <ListView Height="100" Width="100" Name="lvTags">
+                                <ListView BorderThickness="0" ScrollViewer.CanContentScroll="False" Height="200" Width="200" ItemsSource="{Binding Tags}">
                                     <ListView.ItemTemplate>
                                         <DataTemplate DataType="Tag">
-                                            <TextBlock Background="{Binding HexColor}" Text="{Binding Name}"/>
+                                            <TextBlock Background="{Binding Tag.HexColor}" Text="{Binding Tag.Name}"/>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>

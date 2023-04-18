@@ -21,5 +21,8 @@
         <Style TargetType="Button">
             <Setter Property="Background" Value="#FFE0DD46"/>
         </Style>
+        <Style TargetType="ListView">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
     </Application.Resources>
 </Application>

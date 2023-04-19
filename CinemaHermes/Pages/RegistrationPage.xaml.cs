@@ -44,6 +44,13 @@ namespace CinemaHermes.Pages
                     Login = tbLogin.Text,
                     Password = pbPassword.Password
                 };
+
+                if (!CheckPasswordMatch(newUser.Password))
+                {
+                    MessageBox.Show("Пароль не соответсвует требованиям", "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
                 App.Connection.User.Add(newUser);
                 App.Connection.SaveChanges();
                 MessageBox.Show("Усешно", "Сообщение",
@@ -60,6 +67,40 @@ namespace CinemaHermes.Pages
         private void AuthorizationBtnClick(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new AuthorizationPage());
+        }
+
+        private bool CheckPasswordMatch(string password)
+        {
+            int specialSymbolCount = 0;
+            int upperSymbolCount = 0;
+            int numCount = 0;
+
+            if (password.Length < 6)
+            {
+                return false;
+            }
+            for (int i = 0; i < password.Length; ++i)
+            {
+                if (password[i] == '!'
+                    || password[i] == '@'
+                    || password[i] == '#'
+                    || password[i] == '$'
+                    || password[i] == '%'
+                    || password[i] == '^')
+                {
+                    specialSymbolCount++;
+                }
+                if (char.IsDigit(password[i]))
+                {
+                    numCount++;
+                }
+                if (char.IsUpper(password[i]))
+                {
+                    upperSymbolCount++;
+                }
+            }
+
+            return specialSymbolCount > 0 && upperSymbolCount > 0 && numCount > 0;
         }
     }
 }

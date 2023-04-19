@@ -20,7 +20,7 @@
         <Frame x:Name="MainFrame" Grid.Row="1" Grid.Column="1" NavigationUIVisibility="Hidden"/>
         <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Orientation="Horizontal">
             <Image Source="/VHS.png" Width="100" Height="100" Margin="0 0 20 0" VerticalAlignment="Center"/>
-            <TextBlock Text="Cinema Rental Hermes" VerticalAlignment="Center" FontSize="50" FontWeight="SemiBold"/>
+            <TextBlock Text="Видеопрокат Hermes" VerticalAlignment="Center" FontSize="50" FontWeight="SemiBold"/>
         </StackPanel>
     </Grid>
 </Window>

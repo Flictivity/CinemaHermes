@@ -5,18 +5,18 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CinemaHermes.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="1200"
       Title="ClientsPage" Loaded="Page_Loaded">
 
     <Grid Background="#FFFFF9F1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="40*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="8*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ListView ScrollViewer.CanContentScroll="False" x:Name="lvClients" Grid.Row="1" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}">
@@ -49,5 +49,30 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <StackPanel x:Name="listItemsNavigationPanel" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1">
+            <Button x:Name="btnBack" Content="Предыдущая страница" Margin="0 0 20 0" Padding="5" Click="BackInPageBtnClick"/>
+            <TextBlock x:Name="tbPageNum" Margin="0 0 20 0" VerticalAlignment="Center" FontSize="30"/>
+            <Button x:Name="btnNext" Content="Следующая страница" Padding="5" Click="NextBtnClick" Margin="0 0 20 0"/>
+            <TextBlock x:Name="tbItemsCount" Text="100" VerticalAlignment="Center" FontSize="25"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Количество записей" Margin="0 0 10 0" VerticalAlignment="Center" FontSize="20"/>
+                <ComboBox x:Name="cbItemsCount" SelectionChanged="cbItemsCount_SelectionChanged" Margin="0 0 10 0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Фильтр" Margin="0 0 10 0" VerticalAlignment="Center" FontSize="20"/>
+                <ComboBox x:Name="cbFilter" SelectionChanged="cbFilter_SelectionChanged" Margin="0 0 10 0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Сортировка" Margin="0 0 10 0" VerticalAlignment="Center" FontSize="20"/>
+                <ComboBox x:Name="cbSorting" SelectionChanged="cbSorting_SelectionChanged" Margin="0 0 10 0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Поиск" Margin="0 0 10 0" VerticalAlignment="Center" FontSize="20"/>
+                <TextBox x:Name="tbSearch" Margin="0 0 10 0" Width="200" TextChanged="tbSearch_TextChanged"/>
+            </StackPanel>
+            <Button x:Name="btnBirthday" Content="День рождения" Height="40" Padding="5" Click="ShowBirthDaysBtnClick"/>
+        </StackPanel>
     </Grid>
 </Page>

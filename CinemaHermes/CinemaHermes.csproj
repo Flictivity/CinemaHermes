@@ -98,9 +98,12 @@
     </Compile>
     <Compile Include="Components\Extensions\Client.cs" />
     <Compile Include="Components\Extensions\Tag.cs" />
+    <Compile Include="Components\FilterMethods.cs" />
     <Compile Include="Components\Gender.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Components\PageItemsCount.cs" />
+    <Compile Include="Components\SortingMethods.cs" />
     <Compile Include="Components\Tag.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

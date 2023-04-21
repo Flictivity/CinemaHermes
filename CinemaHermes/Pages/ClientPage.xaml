@@ -1,0 +1,93 @@
+﻿<Page x:Class="CinemaHermes.Pages.ClientPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CinemaHermes.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="800"
+      Title="ClientPage">
+    <Page.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Page.Resources>
+    <Grid Background="#FFFFF9F1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Id" Grid.Row="0"/>
+                <TextBlock Text="Фамилия" Grid.Row="1"/>
+                <TextBlock Text="Имя" Grid.Row="2"/>
+                <TextBlock Text="Отчество" Grid.Row="3"/>
+                <TextBlock Text="Телефон" Grid.Row="4"/>
+                <TextBlock Text="Пол" Grid.Row="5"/>
+                <TextBlock Text="Дата рождения" Grid.Row="6"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <TextBox Text="Id" Grid.Row="0"/>
+                <TextBox Text="Фамилия" Grid.Row="1"/>
+                <TextBox Text="Имя" Grid.Row="2"/>
+                <TextBox Text="Отчество" Grid.Row="3"/>
+                <TextBox Text="Телефон" Grid.Row="4"/>
+                <Viewbox Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="30">
+                    <CheckBox/>
+                </Viewbox>
+                <Calendar Grid.Row="6" VerticalAlignment="Center"/>
+            </Grid>
+            <StackPanel Grid.Column="2">
+                <Image Source="/VHS.png" Width="150" Height="150"/>
+                <Button Content="Выбрать изображение" Margin="0 20 0 20"/>
+                <TextBlock Text="Теги" FontSize="25" HorizontalAlignment="Center"/>
+                <ListView x:Name="lvTags" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0 0 0 20">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding HexColor}" Background="{Binding Color}" Margin="0 0 20 0"/>
+                                <Button Content="Удалить" Background="#FFBACBD2" Tag="{Binding Id}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Button Content="Добавть тег"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

@@ -22,17 +22,48 @@
         <ListView ScrollViewer.CanContentScroll="False" x:Name="lvClients" Grid.Row="1" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.View>
                 <GridView>
+                    
                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>
                     <GridViewColumn Header="Пол" DisplayMemberBinding="{Binding Gender1.Name}"/>
-                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Firstname}"/>
-                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Lastname}"/>
-                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronymic}"/>
+                    <GridViewColumn Header="ФИО">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Firstname}" Margin="0 0 5 0"/>
+                                    <TextBlock Text="{Binding Lastname}"  Margin="0 0 5 0"/>
+                                    <TextBlock Text="{Binding Patronymic}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Дата рождения" DisplayMemberBinding="{Binding BirthDate, StringFormat={}{0:dd'/'MM'/'yyyy}}"/>
-                    <GridViewColumn Header="Телефон" DisplayMemberBinding="{Binding PhoneNumber}"/>
-                    <GridViewColumn Header="Почта" DisplayMemberBinding="{Binding Email}"/>
+                    <GridViewColumn Header="Телефон/Почта">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding PhoneNumber}" Margin="0 0 5 0"/>
+                                    <TextBlock Text="{Binding Email}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Дата добавления" DisplayMemberBinding="{Binding AddedDate, StringFormat={}{0:dd'/'MM'/'yyyy}}"/>
-                    <GridViewColumn Header="Дата последнего посещения" DisplayMemberBinding="{Binding VisitDate, StringFormat={}{0:dd'/'MM'/'yyyy}}"/>
-                    <GridViewColumn Header="Количество посещений" DisplayMemberBinding="{Binding VisitCount}"/>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <StackPanel>
+                                <TextBlock Text="Дата последнего посещения/" Margin="0 0 5 0"/>
+                                <TextBlock Text="Количество посещений" Margin="0 0 5 0"/>
+                            </StackPanel>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding VisitDate, StringFormat={}{0:dd'/'MM'/'yyyy}}"/>
+                                    <TextBlock Text="{Binding VisitCount}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Теги">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -43,6 +74,16 @@
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Действие">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Button Content="Редактировать" Margin="0 0 0 5" Width="200" Tag="{Binding}"/>
+                                    <Button Content="Удалить" Width="200" Tag="{Binding}"/>
+                                </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

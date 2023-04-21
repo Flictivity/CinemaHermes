@@ -24,5 +24,8 @@
         <Style TargetType="ListView">
             <Setter Property="Foreground" Value="Black"/>
         </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
     </Application.Resources>
 </Application>

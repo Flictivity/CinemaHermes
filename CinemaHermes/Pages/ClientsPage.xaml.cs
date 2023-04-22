@@ -1,6 +1,7 @@
 ﻿using CinemaHermes.Components;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,7 +26,7 @@ namespace CinemaHermes.Pages
         public ClientsPage()
         {
             InitializeComponent();
-            _clientsInDb = App.Connection.Client.ToList();
+            _clientsInDb = App.Connection.Client.Where(x => x.IsDeleted == false).ToList();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -143,14 +144,22 @@ namespace CinemaHermes.Pages
             UpdateClients();
         }
 
+        /// <summary>
+        /// Полусение клиентов относительно заданной страницы
+        /// </summary>
+        /// <returns></returns>
         private List<Client> GetClientsToPage()
         {
             FilterAndSort();
             return _clients.Skip(_pageNumber * _itemsCount).Take(_itemsCount).ToList();
         }
 
+        /// <summary>
+        /// Фильтрация и сортировка списка клиентов
+        /// </summary>
         private void FilterAndSort()
         {
+            _clientsInDb = App.Connection.Client.Where(x => x.IsDeleted == false).ToList();
             _clients = _clientsInDb.Where(x => (_filter(x) && (_showBirthday ? _birthdayFilter(x) : true))).OrderBy(_sort).ToList();
             if (tbSearch.Text != "") Search();
         }
@@ -215,12 +224,68 @@ namespace CinemaHermes.Pages
             Search();
         }
 
+        /// <summary>
+        /// Обработка нажатия кнопки, которая включает отборку клиентов, у которыз день рождения в этом месяце
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowBirthDaysBtnClick(object sender, RoutedEventArgs e)
         {
             _showBirthday = !_showBirthday;
             _birthdayFilter = x => x.BirthDate.Month == DateTime.Now.Month;
             btnBirthday.Background = _showBirthday ? Brushes.Green : (SolidColorBrush)new BrushConverter().ConvertFrom("#FFE0DD46"); ;
             UpdateClients();
+        }
+
+        private void ExitBtnClick(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new MainPage());
+        }
+
+        private void EditBtnClick(object sender, RoutedEventArgs e)
+        {
+            var client = (Client)(((Button)sender).Tag);
+            NavigationService.Navigate(new ClientPage(client));
+        }
+
+        private void DeleteBtnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var clientId = ((Client)(((Button)sender).Tag)).Id;
+                var client = App.Connection.Client.FirstOrDefault(x => x.Id == clientId);
+                var clientVisits = App.Connection.Visit.Where(x => x.ClientId == clientId).ToList();
+
+                if (clientVisits.Any())
+                {
+                    MessageBox.Show("Удаление клиента невозможно.\nВ системе все еще хранится информация о его посещениях.",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                client.IsDeleted = true;
+
+                App.Connection.Client.AddOrUpdate(client);
+                App.Connection.SaveChanges();
+                MessageBox.Show("Клиент успешно удален",
+                    "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
+                UpdateClients();
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка удаления",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void lvClients_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var client = ((ListView)sender).SelectedItem as Client;
+            NavigationService.Navigate(new ClientVisitPage(client));
+        }
+
+        private void CreateClientBtnClick(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new ClientPage(null));
         }
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CinemaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CinemaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="Id" />
@@ -19,6 +19,7 @@
           <Property Name="AddedDate" Type="date" />
           <Property Name="Photo" Type="varbinary(max)" />
           <Property Name="Gender" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="ClientTag">
           <Key>
@@ -131,28 +132,52 @@
             <End Role="Visit" EntitySet="Visit" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CinemaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CinemaRentalEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Client" EntityType="CinemaModel.Client" />
+          <EntitySet Name="ClientTag" EntityType="CinemaModel.ClientTag" />
+          <EntitySet Name="Gender" EntityType="CinemaModel.Gender" />
+          <EntitySet Name="Tag" EntityType="CinemaModel.Tag" />
+          <EntitySet Name="User" EntityType="CinemaModel.User" />
+          <EntitySet Name="Visit" EntityType="CinemaModel.Visit" />
+          <AssociationSet Name="FK_Client_Gender" Association="CinemaModel.FK_Client_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientTag_Client" Association="CinemaModel.FK_ClientTag_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="ClientTag" EntitySet="ClientTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visit_Client" Association="CinemaModel.FK_Visit_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Visit" EntitySet="Visit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientTag_Tag" Association="CinemaModel.FK_ClientTag_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="ClientTag" EntitySet="ClientTag" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Firstname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lastname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="PhoneNumber" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="AddedDate" Type="DateTime" Precision="0" />
           <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Gender1" Relationship="Self.FK_Client_Gender" FromRole="Client" ToRole="Gender" />
-          <NavigationProperty Name="ClientTag" Relationship="Self.FK_ClientTag_Client" FromRole="Client" ToRole="ClientTag" />
-          <NavigationProperty Name="Visit" Relationship="Self.FK_Visit_Client" FromRole="Client" ToRole="Visit" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="Gender1" Relationship="CinemaModel.FK_Client_Gender" FromRole="Client" ToRole="Gender" />
+          <NavigationProperty Name="ClientTag" Relationship="CinemaModel.FK_ClientTag_Client" FromRole="Client" ToRole="ClientTag" />
+          <NavigationProperty Name="Visit" Relationship="CinemaModel.FK_Visit_Client" FromRole="Client" ToRole="Visit" />
         </EntityType>
         <EntityType Name="ClientTag">
           <Key>
@@ -161,33 +186,33 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TagId" Type="Int32" Nullable="false" />
           <Property Name="ClientId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Client" Relationship="Self.FK_ClientTag_Client" FromRole="ClientTag" ToRole="Client" />
-          <NavigationProperty Name="Tag" Relationship="Self.FK_ClientTag_Tag" FromRole="ClientTag" ToRole="Tag" />
+          <NavigationProperty Name="Client" Relationship="CinemaModel.FK_ClientTag_Client" FromRole="ClientTag" ToRole="Client" />
+          <NavigationProperty Name="Tag" Relationship="CinemaModel.FK_ClientTag_Tag" FromRole="ClientTag" ToRole="Tag" />
         </EntityType>
         <EntityType Name="Gender">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Client" Relationship="Self.FK_Client_Gender" FromRole="Gender" ToRole="Client" />
+          <Property Name="ID" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Client" Relationship="CinemaModel.FK_Client_Gender" FromRole="Gender" ToRole="Client" />
         </EntityType>
         <EntityType Name="Tag">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Color" Type="String" MaxLength="7" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="ClientTag" Relationship="Self.FK_ClientTag_Tag" FromRole="Tag" ToRole="ClientTag" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Color" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientTag" Relationship="CinemaModel.FK_ClientTag_Tag" FromRole="Tag" ToRole="ClientTag" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Login" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Visit">
           <Key>
@@ -196,11 +221,11 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClientId" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Client" Relationship="Self.FK_Visit_Client" FromRole="Visit" ToRole="Client" />
+          <NavigationProperty Name="Client" Relationship="CinemaModel.FK_Visit_Client" FromRole="Visit" ToRole="Client" />
         </EntityType>
         <Association Name="FK_Client_Gender">
-          <End Role="Gender" Type="Self.Gender" Multiplicity="1" />
-          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <End Type="CinemaModel.Gender" Role="Gender" Multiplicity="1" />
+          <End Type="CinemaModel.Client" Role="Client" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Gender">
               <PropertyRef Name="ID" />
@@ -211,8 +236,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ClientTag_Client">
-          <End Role="Client" Type="Self.Client" Multiplicity="1" />
-          <End Role="ClientTag" Type="Self.ClientTag" Multiplicity="*" />
+          <End Type="CinemaModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="CinemaModel.ClientTag" Role="ClientTag" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Client">
               <PropertyRef Name="Id" />
@@ -223,8 +248,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Visit_Client">
-          <End Role="Client" Type="Self.Client" Multiplicity="1" />
-          <End Role="Visit" Type="Self.Visit" Multiplicity="*" />
+          <End Type="CinemaModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="CinemaModel.Visit" Role="Visit" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Client">
               <PropertyRef Name="Id" />
@@ -235,8 +260,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ClientTag_Tag">
-          <End Role="Tag" Type="Self.Tag" Multiplicity="1" />
-          <End Role="ClientTag" Type="Self.ClientTag" Multiplicity="*" />
+          <End Type="CinemaModel.Tag" Role="Tag" Multiplicity="1" />
+          <End Type="CinemaModel.ClientTag" Role="ClientTag" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tag">
               <PropertyRef Name="Id" />
@@ -246,30 +271,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="CinemaRentalEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Client" EntityType="Self.Client" />
-          <EntitySet Name="ClientTag" EntityType="Self.ClientTag" />
-          <EntitySet Name="Gender" EntityType="Self.Gender" />
-          <EntitySet Name="Tag" EntityType="Self.Tag" />
-          <EntitySet Name="User" EntityType="Self.User" />
-          <EntitySet Name="Visit" EntityType="Self.Visit" />
-          <AssociationSet Name="FK_Client_Gender" Association="Self.FK_Client_Gender">
-            <End Role="Gender" EntitySet="Gender" />
-            <End Role="Client" EntitySet="Client" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ClientTag_Client" Association="Self.FK_ClientTag_Client">
-            <End Role="Client" EntitySet="Client" />
-            <End Role="ClientTag" EntitySet="ClientTag" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Visit_Client" Association="Self.FK_Visit_Client">
-            <End Role="Client" EntitySet="Client" />
-            <End Role="Visit" EntitySet="Visit" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ClientTag_Tag" Association="Self.FK_ClientTag_Tag">
-            <End Role="Tag" EntitySet="Tag" />
-            <End Role="ClientTag" EntitySet="ClientTag" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -279,60 +280,61 @@
           <EntitySetMapping Name="Client">
             <EntityTypeMapping TypeName="CinemaModel.Client">
               <MappingFragment StoreEntitySet="Client">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
-                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
-                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
-                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientTag">
             <EntityTypeMapping TypeName="CinemaModel.ClientTag">
               <MappingFragment StoreEntitySet="ClientTag">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="TagId" ColumnName="TagId" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Gender">
             <EntityTypeMapping TypeName="CinemaModel.Gender">
               <MappingFragment StoreEntitySet="Gender">
-                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tag">
             <EntityTypeMapping TypeName="CinemaModel.Tag">
               <MappingFragment StoreEntitySet="Tag">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="CinemaModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Visit">
             <EntityTypeMapping TypeName="CinemaModel.Visit">
               <MappingFragment StoreEntitySet="Visit">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

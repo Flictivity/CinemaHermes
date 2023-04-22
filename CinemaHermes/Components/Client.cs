@@ -31,6 +31,7 @@ namespace CinemaHermes.Components
         public Nullable<System.DateTime> AddedDate { get; set; }
         public byte[] Photo { get; set; }
         public string Gender { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual Gender Gender1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

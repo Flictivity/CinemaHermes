@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="Components\Extensions\Client.cs" />
     <Compile Include="Components\Extensions\Tag.cs" />
+    <Compile Include="Components\Extensions\Visit.cs" />
     <Compile Include="Components\FilterMethods.cs" />
     <Compile Include="Components\Gender.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
@@ -129,6 +130,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\ClientVisitPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -147,6 +152,9 @@
     </Compile>
     <Compile Include="Pages\ClientsPage.xaml.cs">
       <DependentUpon>ClientsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ClientVisitPage.xaml.cs">
+      <DependentUpon>ClientVisitPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

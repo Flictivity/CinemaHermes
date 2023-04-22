@@ -5,89 +5,110 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CinemaHermes.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="800" d:DesignWidth="800"
-      Title="ClientPage">
+      d:DesignHeight="1000" d:DesignWidth="900"
+      Title="ClientPage" Loaded="Page_Loaded">
     <Page.Resources>
         <Style TargetType="TextBox">
             <Setter Property="Height" Value="30"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"/>
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"/>
         </Style>
     </Page.Resources>
-    <Grid Background="#FFFFF9F1">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="20*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="1" Grid.Column="1">
+    <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="True">
+        <Grid Background="#FFFFF9F1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="2" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="3*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="Id" Grid.Row="0"/>
-                <TextBlock Text="Фамилия" Grid.Row="1"/>
-                <TextBlock Text="Имя" Grid.Row="2"/>
-                <TextBlock Text="Отчество" Grid.Row="3"/>
-                <TextBlock Text="Телефон" Grid.Row="4"/>
-                <TextBlock Text="Пол" Grid.Row="5"/>
-                <TextBlock Text="Дата рождения" Grid.Row="6"/>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Id" Grid.Row="0"/>
+                    <TextBlock Text="Фамилия" Grid.Row="1"/>
+                    <TextBlock Text="Имя" Grid.Row="2"/>
+                    <TextBlock Text="Отчество" Grid.Row="3"/>
+                    <TextBlock Text="Телефон" Grid.Row="4"/>
+                    <TextBlock Text="Email" Grid.Row="5"/>
+                    <TextBlock Text="Пол" Grid.Row="6"/>
+                    <TextBlock Text="Дата рождения" Grid.Row="7" VerticalAlignment="Top"/>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBox Text="{Binding Id}" x:Name="tbId" IsReadOnly="True" Grid.Row="0"/>
+                    <TextBox Text="{Binding Firstname}" Grid.Row="1" MaxLength="50"/>
+                    <TextBox Text="{Binding Lastname}" Grid.Row="2" MaxLength="50"/>
+                    <TextBox Text="{Binding Patronymic}" Grid.Row="3" MaxLength="50"/>
+                    <TextBox Text="{Binding PhoneNumber}" Grid.Row="4"/>
+                    <TextBox Text="{Binding Email}" Grid.Row="5"/>
+                    <ComboBox x:Name="cbGender" Grid.Row="6" Height="40" SelectedItem="{Binding Gender1}" DisplayMemberPath="Name"/>
+                    <DatePicker Grid.Row="7" VerticalAlignment="Top" SelectedDate="{Binding BirthDate}"/>
+                </Grid>
+                <StackPanel Grid.Column="2" Margin="10 0 0 0">
+                    <Image x:Name="imgClientPhoto" Source="{Binding Photo}" Width="150" Height="150"/>
+                    <Button Content="Выбрать изображение" Margin="0 20 0 20" Click="AddImageBtnClick"/>
+                    <TextBlock Text="Теги" FontSize="25" HorizontalAlignment="Center"/>
+                    <ListView x:Name="lvClientTags" ItemsSource="{Binding ClientTag}" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0 0 0 20">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Background="{Binding Tag.HexColor}" Text="{Binding Tag.Name}" Margin="0 0 20 0"/>
+                                    <Button Content="Удалить" Background="#FFBACBD2" Tag="{Binding}" Click="DeleteBtnClick"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <TextBlock Text="Теги для добавления" FontSize="25"/>
+                    <ListView x:Name="lvTags" MouseDoubleClick="lvTags_MouseDoubleClick" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0 0 0 20">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Background="{Binding HexColor}" Text="{Binding Name}" Margin="0 0 20 0"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+                <Button Content="Сохранить" Width="200" Height="40" Margin="0 0 0 20" Grid.ColumnSpan="3" Grid.Row="1" Click="SaveBtnClick"/>
             </Grid>
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="3*"/>
-                </Grid.RowDefinitions>
-                <TextBox Text="Id" Grid.Row="0"/>
-                <TextBox Text="Фамилия" Grid.Row="1"/>
-                <TextBox Text="Имя" Grid.Row="2"/>
-                <TextBox Text="Отчество" Grid.Row="3"/>
-                <TextBox Text="Телефон" Grid.Row="4"/>
-                <Viewbox Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="30">
-                    <CheckBox/>
-                </Viewbox>
-                <Calendar Grid.Row="6" VerticalAlignment="Center"/>
-            </Grid>
-            <StackPanel Grid.Column="2">
-                <Image Source="/VHS.png" Width="150" Height="150"/>
-                <Button Content="Выбрать изображение" Margin="0 20 0 20"/>
-                <TextBlock Text="Теги" FontSize="25" HorizontalAlignment="Center"/>
-                <ListView x:Name="lvTags" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0 0 0 20">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding HexColor}" Background="{Binding Color}" Margin="0 0 20 0"/>
-                                <Button Content="Удалить" Background="#FFBACBD2" Tag="{Binding Id}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <Button Content="Добавть тег"/>
-            </StackPanel>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="Клиент" FontSize="40"/>
+            <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Width="200" Content="Назад" Click="BackBtnClick"/>
         </Grid>
-    </Grid>
+    </ScrollViewer>
 </Page>

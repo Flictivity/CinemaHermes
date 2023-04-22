@@ -19,10 +19,9 @@
             <RowDefinition Height="8*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ListView ScrollViewer.CanContentScroll="False" x:Name="lvClients" Grid.Row="1" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+        <ListView MouseDoubleClick="lvClients_MouseDoubleClick" ScrollViewer.CanContentScroll="False" x:Name="lvClients" Grid.Row="1" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.View>
                 <GridView>
-                    
                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>
                     <GridViewColumn Header="Пол" DisplayMemberBinding="{Binding Gender1.Name}"/>
                     <GridViewColumn Header="ФИО">
@@ -58,7 +57,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <TextBlock Text="{Binding VisitDate, StringFormat={}{0:dd'/'MM'/'yyyy}}"/>
+                                    <TextBlock Visibility="{Binding HaveVisits}" Text="{Binding VisitDate, StringFormat={}{0:dd'/'MM'/'yyyy}}"/>
                                     <TextBlock Text="{Binding VisitCount}"/>
                                 </StackPanel>
                             </DataTemplate>
@@ -81,8 +80,8 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <Button Content="Редактировать" Margin="0 0 0 5" Width="200" Tag="{Binding}"/>
-                                    <Button Content="Удалить" Width="200" Tag="{Binding}"/>
+                                    <Button Content="Редактировать" Margin="0 0 0 5" Width="200" Tag="{Binding}" Click="EditBtnClick"/>
+                                    <Button Content="Удалить" Width="200" Tag="{Binding}" Click="DeleteBtnClick"/>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -115,5 +114,7 @@
             </StackPanel>
             <Button x:Name="btnBirthday" Content="День рождения" Height="40" Padding="5" Click="ShowBirthDaysBtnClick"/>
         </StackPanel>
+        <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="left" Width="200" Content="Выход" Click="ExitBtnClick"/>
+        <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="200" Content="Новый клиент" Click="CreateClientBtnClick"/>
     </Grid>
 </Page>

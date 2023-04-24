@@ -36,6 +36,8 @@ namespace CinemaHermes.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            tbId.Visibility = _isEdit ? Visibility.Visible : Visibility.Collapsed;
+            tblId.Visibility = _isEdit ? Visibility.Visible : Visibility.Collapsed;
             ShowFreeTags();
         }
 

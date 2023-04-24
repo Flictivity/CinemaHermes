@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CinemaHermes"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="800" MinWidth="1400">
+        Title="MainWindow" MinHeight="800" MinWidth="1400" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid Background="#FFBACBD2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
